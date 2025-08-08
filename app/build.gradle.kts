@@ -35,6 +35,7 @@ android {
     }
     android {
         buildFeatures {
+            buildConfig = true
             compose = true
         }
     }
@@ -67,6 +68,7 @@ dependencies {
     implementation(libs.compose.material3)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.material)
+    implementation(libs.timber)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
