@@ -44,6 +44,7 @@ android {
 }
 
 ktlint {
+    version.set("1.4.0")
     android.set(true)
     ignoreFailures.set(true)
     reporters {
@@ -53,6 +54,7 @@ ktlint {
 }
 
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+    jvmTarget = "22"
     config.setFrom("$rootDir/config/detekt/detekt.yml")
     reports {
         html.required.set(true)
@@ -78,4 +80,5 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     detektPlugins(libs.detekt.compose)
+    ktlintRuleset(libs.ktlint.compose)
 }

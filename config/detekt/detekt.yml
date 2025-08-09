@@ -459,7 +459,7 @@ naming:
     active: false
     minimumFunctionNameLength: 3
   FunctionNaming:
-    active: true
+    active: false
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']
     functionPattern: '[a-z][a-zA-Z0-9]*'
     excludeClassPattern: '$^'
@@ -878,7 +878,7 @@ style:
     active: true
   UnusedPrivateMember:
     active: true
-    allowedNames: ''
+    allowedNames: '.*Preview'
   UnusedPrivateProperty:
     active: true
     allowedNames: '_|ignored|expected|serialVersionUID'
