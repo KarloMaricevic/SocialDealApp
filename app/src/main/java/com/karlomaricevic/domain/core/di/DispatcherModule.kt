@@ -19,6 +19,5 @@ object DispatcherModule {
 
     @IoDispatcher
     @Provides
-    @Singleton
     fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
 }
