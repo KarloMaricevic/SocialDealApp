@@ -1,8 +1,10 @@
 package com.karlomaricevic.socialdeal
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
+@HiltAndroidApp
 class SocialDealApplication : Application() {
     override fun onCreate() {
         super.onCreate()

@@ -11,11 +11,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.karlomaricevic.socialdeal.core.navigation.NavigationEvent.Destination
 import com.karlomaricevic.socialdeal.core.navigation.NavigationEvent.NavigateBack
 import com.karlomaricevic.socialdeal.core.navigation.NavigationEvent.NavigateUp
 import com.karlomaricevic.socialdeal.core.navigation.Navigator
+import com.karlomaricevic.socialdeal.feature.search.SearchScreen
+import com.karlomaricevic.socialdeal.feature.search.router.SearchRouter
 
 @Suppress("ModifierMissing")
 @Composable
@@ -39,12 +42,13 @@ fun SocialDealAppNavigation(
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         containerColor = MaterialTheme.colorScheme.surface,
-        ) { innerPadding ->
+    ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "",
+            startDestination = SearchRouter.route(),
             modifier = Modifier.padding(innerPadding),
         ) {
+            composable(SearchRouter.route()) { SearchScreen() }
         }
     }
 }
