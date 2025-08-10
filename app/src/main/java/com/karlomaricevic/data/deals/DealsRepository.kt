@@ -11,6 +11,10 @@ class DealsRepository @Inject constructor(
     private val dealsApi: DealsApi,
 ) {
 
+    companion object {
+        private const val BASE_IMAGE_URL = "https://images.socialdeal.nls"
+    }
+
     suspend fun getDeals() = safeApiCall { dealsApi.getDeals() }
         .map { response -> mapDealListResponseToDomain(response) }
 
@@ -19,7 +23,7 @@ class DealsRepository @Inject constructor(
             Deal(
                 id = dto.unique,
                 title = dto.title,
-                imageUrl = dto.image,
+                imageUrl = BASE_IMAGE_URL + dto.image,
                 company = dto.company,
                 city = dto.city,
                 soldLabel = dto.soldLabel,

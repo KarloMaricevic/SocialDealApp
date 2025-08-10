@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.karlomaricevic.designSystem.theme.blue100
 import com.karlomaricevic.designSystem.theme.gray500
 import com.karlomaricevic.domain.core.models.Deal
-import com.karlomaricevic.socialdeal.core.components.Shimmer
+import com.karlomaricevic.socialdeal.core.components.RemoteImage
 
 @Composable
     fun DealItem(
@@ -32,8 +32,9 @@ import com.karlomaricevic.socialdeal.core.components.Shimmer
             .background(Color.White)
             .padding(12.dp)
     ) {
-        Shimmer(
-            Modifier
+        RemoteImage(
+            url = model.imageUrl,
+            modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(16f / 9f)
                 .clip(RoundedCornerShape(8.dp)),
