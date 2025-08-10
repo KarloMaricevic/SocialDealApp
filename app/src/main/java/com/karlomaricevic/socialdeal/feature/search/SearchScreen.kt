@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.karlomaricevic.designSystem.theme.SocialDealAppTheme
 import com.karlomaricevic.socialdeal.core.components.Shimmer
 
 @Composable
@@ -81,5 +82,5 @@ private fun PlaceholderItem(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun PlaceholderItemPreview() {
-    PlaceholderItem()
+    SocialDealAppTheme { PlaceholderItem() }
 }
