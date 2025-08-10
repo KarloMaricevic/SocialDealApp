@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.compose.material3)
     debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.coil.compose)
     implementation(libs.material)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.jackson)
