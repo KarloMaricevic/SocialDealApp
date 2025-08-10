@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.compose.foundation)
+    implementation(libs.navigation.compose)
     implementation(libs.compose.material3)
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.material)
