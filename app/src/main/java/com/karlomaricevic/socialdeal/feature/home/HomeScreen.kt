@@ -16,11 +16,13 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.karlomaricevic.designSystem.theme.blue300
 import com.karlomaricevic.designSystem.theme.blue700
 import com.karlomaricevic.socialdeal.R
 import com.karlomaricevic.socialdeal.core.navigation.TabItem
 import com.karlomaricevic.socialdeal.feature.search.SearchScreen
+import com.karlomaricevic.socialdeal.feature.search.viewmodel.SearchViewModel
 
 @Composable
 fun HomeScreen() {
@@ -31,7 +33,7 @@ fun HomeScreen() {
     )
 
     var selectedTab by remember { mutableIntStateOf(0) }
-
+    val searchViewModel: SearchViewModel = hiltViewModel()
     Scaffold(
         bottomBar = {
             NavigationBar {
@@ -53,9 +55,9 @@ fun HomeScreen() {
         }
     ) { padding ->
         when (selectedTab) {
-            0 -> SearchScreen()
-            1 -> SearchScreen()
-            2 -> SearchScreen()
+            0 -> SearchScreen(searchViewModel)
+            1 -> SearchScreen(searchViewModel)
+            2 -> SearchScreen(searchViewModel)
         }
     }
 }

@@ -20,9 +20,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.karlomaricevic.designSystem.theme.SocialDealAppTheme
 import com.karlomaricevic.socialdeal.core.components.Shimmer
+import com.karlomaricevic.socialdeal.feature.search.viewmodel.SearchViewModel
 
 @Composable
-fun SearchScreen() {
+fun SearchScreen(viewModel: SearchViewModel) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier
