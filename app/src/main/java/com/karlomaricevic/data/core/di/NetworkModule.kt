@@ -1,4 +1,4 @@
-package com.karlomaricevic.data.di
+package com.karlomaricevic.data.core.di
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
