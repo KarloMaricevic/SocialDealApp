@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
 }
 
@@ -43,16 +42,6 @@ android {
     }
 }
 
-ktlint {
-    version.set("1.4.0")
-    android.set(true)
-    ignoreFailures.set(true)
-    reporters {
-        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
-        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
-    }
-}
-
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     jvmTarget = "22"
     config.setFrom("$rootDir/config/detekt/detekt.yml")
@@ -80,5 +69,4 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     detektPlugins(libs.detekt.compose)
-    ktlintRuleset(libs.ktlint.compose)
 }
