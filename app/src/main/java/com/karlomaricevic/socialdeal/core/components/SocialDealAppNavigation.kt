@@ -17,8 +17,8 @@ import com.karlomaricevic.socialdeal.core.navigation.NavigationEvent.Destination
 import com.karlomaricevic.socialdeal.core.navigation.NavigationEvent.NavigateBack
 import com.karlomaricevic.socialdeal.core.navigation.NavigationEvent.NavigateUp
 import com.karlomaricevic.socialdeal.core.navigation.Navigator
-import com.karlomaricevic.socialdeal.feature.search.SearchScreen
-import com.karlomaricevic.socialdeal.feature.search.router.SearchRouter
+import com.karlomaricevic.socialdeal.feature.home.HomeScreen
+import com.karlomaricevic.socialdeal.feature.home.router.HomeRouter
 
 @Suppress("ModifierMissing")
 @Composable
@@ -45,10 +45,10 @@ fun SocialDealAppNavigation(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = SearchRouter.route(),
+            startDestination = HomeRouter.route(),
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(SearchRouter.route()) { SearchScreen() }
+            composable(HomeRouter.route()) { HomeScreen() }
         }
     }
 }

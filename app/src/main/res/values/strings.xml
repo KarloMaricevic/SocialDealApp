@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">SocialDeal</string>
+
+    // home screen
+    <string name="home_screen_search_tab_name">Search</string>
+    <string name="home_screen_favorites_tab_name">Home</string>
+    <string name="home_screen_settings_tab_name">Profile</string>
 </resources>
