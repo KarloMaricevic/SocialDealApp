@@ -16,7 +16,8 @@ class GetFavoriteDealsUseCase @Inject constructor(
     suspend operator fun invoke() = withContext(dispatcher) {
         val favorites = favoritesRepository.getFavoritesIds()
         dealsRepository.getDeals().map { deals ->
-            deals.map { deal -> deal.copy(isFavorite = favorites.contains(deal.id)) }
+            deals.filter { deal -> favorites.contains(deal.id) }
+                .map { deal -> deal.copy(isFavorite = true) }
         }
     }
 }
