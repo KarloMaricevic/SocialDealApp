@@ -17,16 +17,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.karlomaricevic.socialdeal.R
 import com.karlomaricevic.socialdeal.designSystem.theme.blue300
 import com.karlomaricevic.socialdeal.designSystem.theme.blue700
-import com.karlomaricevic.socialdeal.R
 import com.karlomaricevic.socialdeal.feature.core.navigation.TabItem
+import com.karlomaricevic.socialdeal.feature.favorites.FavoritesScreen
+import com.karlomaricevic.socialdeal.feature.favorites.viewmodel.FavoritesViewModel
 import com.karlomaricevic.socialdeal.feature.search.SearchScreen
 import com.karlomaricevic.socialdeal.feature.search.viewmodel.SearchViewModel
 
 @Composable
 fun HomeScreen(
-    searchViewModel: SearchViewModel = hiltViewModel()
+    searchViewModel: SearchViewModel = hiltViewModel(),
+    favoritesViewModel: FavoritesViewModel = hiltViewModel(),
 ) {
     val tabs = listOf(
         TabItem(stringResource(R.string.home_screen_search_tab_name), Icons.Default.Search),
@@ -57,7 +60,7 @@ fun HomeScreen(
     ) { padding ->
         when (selectedTab) {
             0 -> SearchScreen(searchViewModel)
-            1 -> SearchScreen(searchViewModel)
+            1 -> FavoritesScreen(favoritesViewModel)
             2 -> SearchScreen(searchViewModel)
         }
     }
