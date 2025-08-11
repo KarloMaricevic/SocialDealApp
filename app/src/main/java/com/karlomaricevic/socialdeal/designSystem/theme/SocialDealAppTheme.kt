@@ -13,7 +13,7 @@ import androidx.core.graphics.drawable.toDrawable
 private val colorScheme = lightColorScheme(
     primary = blue,
     surface = white,
-    background = gray300,
+    background = white,
     error = red,
     onBackground = black,
     onSurface = black,

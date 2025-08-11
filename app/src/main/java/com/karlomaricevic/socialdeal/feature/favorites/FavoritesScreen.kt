@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.karlomaricevic.socialdeal.designSystem.theme.black
 import com.karlomaricevic.socialdeal.feature.core.components.DealItem
@@ -31,9 +32,7 @@ fun FavoritesScreen(viewModel: FavoritesViewModel) {
             } else {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier
-                        .background(black)
-                        .fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().background(Color(0xDDDDDDDD)),
                 ) {
                     items(
                         count = currentState.deals.size,
