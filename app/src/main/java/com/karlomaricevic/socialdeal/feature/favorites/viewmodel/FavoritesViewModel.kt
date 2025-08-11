@@ -2,6 +2,7 @@ package com.karlomaricevic.socialdeal.feature.favorites.viewmodel
 
 import com.karlomaricevic.socialdeal.domain.favorites.FavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteDealsUseCase
+import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteEventsStream
 import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
 import com.karlomaricevic.socialdeal.feature.favorites.models.FavoritesScreenEvent
@@ -24,13 +25,39 @@ class FavoritesViewModel @Inject constructor(
     private val getFavoriteDealsUseCase: GetFavoriteDealsUseCase,
     private val favoriteDealUseCase: FavoriteDealUseCase,
     private val unfavoriteDealUseCase: UnfavoriteDealUseCase,
+    private val getFavoriteEventsStream: GetFavoriteEventsStream,
 ) : BaseViewModel<FavoritesScreenEvent>() {
+
+    companion object {
+        private const val NOT_FOUND_INDICATOR = -1
+    }
 
     private val _viewState = MutableStateFlow<FavoritesScreenState>(Loading)
     val viewState = _viewState.asStateFlow()
 
     init {
         loadFavorites()
+        launch {
+            getFavoriteEventsStream().collect { changedDeal ->
+                _viewState.update { state ->
+                    if (state is Content) {
+                        return@update if (changedDeal.isFavorite) {
+                            val newFavorites = listOf(changedDeal) + state.deals
+                            Content(newFavorites)
+                        } else {
+                            val indexToRemove = state.deals.indexOfFirst { it.id == changedDeal.id }
+                            if (indexToRemove == NOT_FOUND_INDICATOR) {
+                                return@update state
+                            }
+                            val newFavorites = state.deals.toMutableList().apply {
+                                removeAt(indexToRemove)
+                            }
+                            Content(newFavorites)
+                        }
+                    } else state
+                }
+            }
+        }
     }
 
     override fun onEvent(event: FavoritesScreenEvent) {

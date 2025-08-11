@@ -1,6 +1,7 @@
 package com.karlomaricevic.socialdeal.feature.search.viewmodel
 
 import com.karlomaricevic.socialdeal.domain.favorites.FavoriteDealUseCase
+import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteEventsStream
 import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.search.GetDealsUseCase
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
@@ -24,7 +25,12 @@ class SearchViewModel @Inject constructor(
     private val getDealsUseCase: GetDealsUseCase,
     private val favoriteDealUseCase: FavoriteDealUseCase,
     private val unfavoriteDealUseCase: UnfavoriteDealUseCase,
+    private val getFavoriteEventsStream: GetFavoriteEventsStream,
 ) : BaseViewModel<SearchScreenEvent>() {
+
+    companion object {
+        private const val NOT_FOUND_INDICATOR = -1
+    }
 
     private val dealsIdsBeingFavorite = mutableSetOf<String>()
 
@@ -33,6 +39,20 @@ class SearchViewModel @Inject constructor(
 
     init {
         loadDeals()
+        launch {
+            getFavoriteEventsStream().collect { changedDeal ->
+                _viewState.update { state ->
+                    if (state is Content) {
+                        val dealIndex = state.deals.indexOfFirst { deal -> deal.id == changedDeal.id }
+                        if (dealIndex == NOT_FOUND_INDICATOR) {
+                            state
+                        }
+                        val newDeals = state.deals.toMutableList().apply { this[dealIndex] = changedDeal }
+                        Content(newDeals)
+                    } else state
+                }
+            }
+        }
     }
 
     override fun onEvent(event: SearchScreenEvent) {
