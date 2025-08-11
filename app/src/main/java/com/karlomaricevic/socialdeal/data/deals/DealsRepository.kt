@@ -12,7 +12,7 @@ class DealsRepository @Inject constructor(
 ) {
 
     companion object {
-        private const val BASE_IMAGE_URL = "https://images.socialdeal.nls"
+        private const val BASE_IMAGE_URL = "https://images.socialdeal.nl"
     }
 
     suspend fun getDeals() = safeApiCall { dealsApi.getDeals() }
