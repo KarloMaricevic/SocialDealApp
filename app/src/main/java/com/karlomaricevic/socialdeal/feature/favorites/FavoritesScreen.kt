@@ -53,13 +53,12 @@ fun FavoritesScreen(viewModel: FavoritesViewModel) {
         }
 
         is Loading -> {
-            LazyColumn(
+            Column(
                 modifier = Modifier
-                    .background(black)
-                    .fillMaxSize()
-            ) {
-                items(3) { DealItemPlaceholder() }
-            }
+                    .background(Color(0xDDDDDDDD))
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) { repeat(3) { DealItemPlaceholder() } }
         }
 
         is Error -> {
