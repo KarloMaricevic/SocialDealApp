@@ -3,6 +3,9 @@
 
     <string name="default_image_content_description"/>
     <string name="default_icon_content_description"/>
+    <string name="default_error_title">Ops something went wrong</string>
+    <string name="retry">Retry</string>
+
     // home screen
     <string name="home_screen_search_tab_name">Search</string>
     <string name="home_screen_favorites_tab_name">Home</string>

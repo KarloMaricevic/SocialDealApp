@@ -5,6 +5,9 @@ import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.search.GetDealsUseCase
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent
+import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.DealsCardClicked
+import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.FavoritesButtonClick
+import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.RetryButtonClicked
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState.Error
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState.Loading
@@ -29,25 +32,20 @@ class SearchViewModel @Inject constructor(
     val viewState = _viewState.asStateFlow()
 
     init {
-        launch {
-            getDealsUseCase().fold(
-                ifLeft = { _ -> _viewState.update { Error } },
-                ifRight = { deals -> _viewState.update { Content(deals) } },
-            )
-        }
+        loadDeals()
     }
 
     override fun onEvent(event: SearchScreenEvent) {
         when (event) {
-            is SearchScreenEvent.DealsCardClicked -> {}
-            is SearchScreenEvent.FavoritesButtonClick -> {
-                if(dealsIdsBeingFavorite.contains(event.id)) {
+            is DealsCardClicked -> {}
+            is FavoritesButtonClick -> {
+                if (dealsIdsBeingFavorite.contains(event.id)) {
                     return
                 }
                 dealsIdsBeingFavorite.add(event.id)
                 _viewState.update { state ->
                     if (state is Content) {
-                        val dealIndex = state.deals.indexOfFirst { deal ->  deal.id == event.id }
+                        val dealIndex = state.deals.indexOfFirst { deal -> deal.id == event.id }
                         val deal = state.deals[dealIndex]
                         val updatedDeal = deal.copy(isFavorite = !deal.isFavorite)
                         val updatedDeals = state.deals.toMutableList().apply { this[dealIndex] = updatedDeal }
@@ -67,6 +65,18 @@ class SearchViewModel @Inject constructor(
                     dealsIdsBeingFavorite.remove(event.id)
                 }
             }
+
+            RetryButtonClicked -> loadDeals()
+        }
+    }
+
+    private fun loadDeals() {
+        _viewState.update { Loading }
+        launch {
+            getDealsUseCase().fold(
+                ifLeft = { _ -> _viewState.update { Error } },
+                ifRight = { deals -> _viewState.update { Content(deals) } },
+            )
         }
     }
 }
