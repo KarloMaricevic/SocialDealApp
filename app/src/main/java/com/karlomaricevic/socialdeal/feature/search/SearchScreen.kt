@@ -45,7 +45,10 @@ fun SearchScreen(viewModel: SearchViewModel) {
                     key = { index -> currentState.deals[index].id },
                 ) { index ->
                     val deal = currentState.deals[index]
-                    DealItem(deal)
+                    DealItem(
+                        model = deal,
+                        onEvent = viewModel::onEvent,
+                    )
                 }
             }
 

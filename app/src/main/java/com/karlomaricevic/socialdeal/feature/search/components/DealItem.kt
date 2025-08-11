@@ -32,11 +32,14 @@ import com.karlomaricevic.socialdeal.designSystem.theme.red
 import com.karlomaricevic.socialdeal.designSystem.theme.white
 import com.karlomaricevic.socialdeal.domain.core.models.Deal
 import com.karlomaricevic.socialdeal.feature.core.components.RemoteImage
+import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent
+import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.FavoritesButtonClick
 
 @Composable
 fun DealItem(
     model: Deal,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onEvent: (SearchScreenEvent) -> Unit,
 ) {
     Column(
         modifier
@@ -60,7 +63,7 @@ fun DealItem(
                 modifier = Modifier
                     .padding(8.dp)
                     .clip(CircleShape)
-                    .clickable {}
+                    .clickable { onEvent(FavoritesButtonClick(model.id)) }
                     .padding(8.dp)
                     .size(24.dp)
                     .align(Alignment.BottomEnd),
@@ -116,7 +119,8 @@ private fun DealItemPreview() {
             soldLabel = "Sold: 122",
             company = "Company",
             city = "City",
-        )
+        ),
+        onEvent = {},
     )
 }
 
@@ -132,6 +136,7 @@ private fun DealItemLongTextPreview() {
             soldLabel = List(10) { "Sold: 122" }.joinToString(),
             company = List(10) { "Company" }.joinToString(),
             city = List(10) { "City" }.joinToString(),
-        )
+        ),
+        onEvent = {},
     )
 }
