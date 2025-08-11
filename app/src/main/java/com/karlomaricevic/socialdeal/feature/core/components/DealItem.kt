@@ -1,4 +1,4 @@
-package com.karlomaricevic.socialdeal.feature.search.components
+package com.karlomaricevic.socialdeal.feature.core.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,18 +31,17 @@ import com.karlomaricevic.socialdeal.designSystem.theme.gray500
 import com.karlomaricevic.socialdeal.designSystem.theme.red
 import com.karlomaricevic.socialdeal.designSystem.theme.white
 import com.karlomaricevic.socialdeal.domain.core.models.Deal
-import com.karlomaricevic.socialdeal.feature.core.components.RemoteImage
-import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent
-import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.FavoritesButtonClick
 
 @Composable
 fun DealItem(
     model: Deal,
+    onClick: () -> Unit,
+    onFavoritesButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onEvent: (SearchScreenEvent) -> Unit,
 ) {
     Column(
         modifier
+            .clickable { onClick() }
             .background(Color.White)
             .padding(12.dp)
     ) {
@@ -63,7 +62,7 @@ fun DealItem(
                 modifier = Modifier
                     .padding(8.dp)
                     .clip(CircleShape)
-                    .clickable { onEvent(FavoritesButtonClick(model.id)) }
+                    .clickable { onFavoritesButtonClick() }
                     .padding(8.dp)
                     .size(24.dp)
                     .align(Alignment.BottomEnd),
@@ -120,7 +119,8 @@ private fun DealItemPreview() {
             company = "Company",
             city = "City",
         ),
-        onEvent = {},
+        onClick = {},
+        onFavoritesButtonClick = {},
     )
 }
 
@@ -137,6 +137,7 @@ private fun DealItemLongTextPreview() {
             company = List(10) { "Company" }.joinToString(),
             city = List(10) { "City" }.joinToString(),
         ),
-        onEvent = {},
+        onClick = {},
+        onFavoritesButtonClick = {},
     )
 }
