@@ -2,7 +2,10 @@ package com.karlomaricevic.socialdeal.feature.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,40 +22,44 @@ import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState.Loa
 import com.karlomaricevic.socialdeal.feature.search.viewmodel.SearchViewModel
 
 @Composable
-fun SearchScreen(viewModel: SearchViewModel) {
+fun SearchScreen(
+    viewModel: SearchViewModel,
+    innerPadding: PaddingValues,
+) {
     val state = viewModel.viewState.collectAsState()
-
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xDDDDDDDD)),
-    ) {
-        when (val currentState = state.value) {
-            is Content -> {
-                items(
-                    count = currentState.deals.size,
-                    key = { index -> currentState.deals[index].id },
-                ) { index ->
-                    val deal = currentState.deals[index]
-                    DealItem(
-                        model = deal,
-                        onClick = { viewModel.onEvent(DealsCardClicked(deal.id)) },
-                        onFavoritesButtonClick = { viewModel.onEvent(FavoritesButtonClick(deal.id)) },
-                    )
+    Box(Modifier.padding(innerPadding)) {
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0xDDDDDDDD)),
+        ) {
+            when (val currentState = state.value) {
+                is Content -> {
+                    items(
+                        count = currentState.deals.size,
+                        key = { index -> currentState.deals[index].id },
+                    ) { index ->
+                        val deal = currentState.deals[index]
+                        DealItem(
+                            model = deal,
+                            onClick = { viewModel.onEvent(DealsCardClicked(deal.id)) },
+                            onFavoritesButtonClick = { viewModel.onEvent(FavoritesButtonClick(deal.id)) },
+                        )
+                    }
                 }
-            }
 
-            is Loading -> {
-                items(3) { DealItemPlaceholder() }
-            }
+                is Loading -> {
+                    items(3) { DealItemPlaceholder() }
+                }
 
-            Error -> {
-                item {
-                    DefaultErrorScreenIndicator(
-                        onRetryClicked = { viewModel.onEvent(RetryButtonClicked) },
-                        modifier = Modifier.fillParentMaxSize(),
-                    )
+                Error -> {
+                    item {
+                        DefaultErrorScreenIndicator(
+                            onRetryClicked = { viewModel.onEvent(RetryButtonClicked) },
+                            modifier = Modifier.fillParentMaxSize(),
+                        )
+                    }
                 }
             }
         }

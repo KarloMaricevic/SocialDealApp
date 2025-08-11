@@ -57,11 +57,11 @@ fun HomeScreen(
                 }
             }
         }
-    ) { padding ->
+    ) { innerPadding ->
         when (selectedTab) {
-            0 -> SearchScreen(searchViewModel)
-            1 -> FavoritesScreen(favoritesViewModel)
-            2 -> SearchScreen(searchViewModel)
+            0 -> SearchScreen(viewModel = searchViewModel, innerPadding = innerPadding)
+            1 -> FavoritesScreen(viewModel = favoritesViewModel, innerPadding = innerPadding)
+            2 -> SearchScreen(viewModel = searchViewModel, innerPadding = innerPadding)
         }
     }
 }

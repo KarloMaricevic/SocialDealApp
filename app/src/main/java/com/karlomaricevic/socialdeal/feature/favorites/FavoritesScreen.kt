@@ -2,8 +2,11 @@ package com.karlomaricevic.socialdeal.feature.favorites
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,50 +27,55 @@ import com.karlomaricevic.socialdeal.feature.favorites.models.FavoritesScreenSta
 import com.karlomaricevic.socialdeal.feature.favorites.viewmodel.FavoritesViewModel
 
 @Composable
-fun FavoritesScreen(viewModel: FavoritesViewModel) {
+fun FavoritesScreen(
+    innerPadding: PaddingValues,
+    viewModel: FavoritesViewModel
+) {
     val state = viewModel.viewState.collectAsState()
-    when (val currentState = state.value) {
-        is Content -> {
-            if (currentState.deals.isEmpty()) {
-                NoFavorites()
-            } else {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color(0xDDDDDDDD)),
-                ) {
-                    items(
-                        count = currentState.deals.size,
-                        key = { index -> currentState.deals[index].id },
-                    ) { index ->
-                        val deal = currentState.deals[index]
-                        DealItem(
-                            model = deal,
-                            onClick = { viewModel.onEvent(DealsCardClicked(deal.id)) },
-                            onFavoritesButtonClick = { viewModel.onEvent(UnfavoritesButtonClick(deal.id)) },
-                        )
+    Box(Modifier.padding(innerPadding)) {
+        when (val currentState = state.value) {
+            is Content -> {
+                if (currentState.deals.isEmpty()) {
+                    NoFavorites()
+                } else {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(0xDDDDDDDD)),
+                    ) {
+                        items(
+                            count = currentState.deals.size,
+                            key = { index -> currentState.deals[index].id },
+                        ) { index ->
+                            val deal = currentState.deals[index]
+                            DealItem(
+                                model = deal,
+                                onClick = { viewModel.onEvent(DealsCardClicked(deal.id)) },
+                                onFavoritesButtonClick = { viewModel.onEvent(UnfavoritesButtonClick(deal.id)) },
+                            )
+                        }
                     }
                 }
             }
-        }
 
-        is Loading -> {
-            Column(
-                modifier = Modifier
-                    .background(Color(0xDDDDDDDD))
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) { repeat(3) { DealItemPlaceholder() } }
-        }
+            is Loading -> {
+                Column(
+                    modifier = Modifier
+                        .background(Color(0xDDDDDDDD))
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) { repeat(3) { DealItemPlaceholder() } }
+            }
 
-        is Error -> {
-            DefaultErrorScreenIndicator(
-                onRetryClicked = { viewModel.onEvent(RetryButtonClicked) },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(black)
-            )
+            is Error -> {
+                DefaultErrorScreenIndicator(
+                    onRetryClicked = { viewModel.onEvent(RetryButtonClicked) },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(black)
+                )
+            }
         }
     }
 }
