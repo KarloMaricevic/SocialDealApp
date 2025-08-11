@@ -17,15 +17,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.karlomaricevic.designSystem.theme.blue300
-import com.karlomaricevic.designSystem.theme.blue700
+import com.karlomaricevic.socialdeal.designSystem.theme.blue300
+import com.karlomaricevic.socialdeal.designSystem.theme.blue700
 import com.karlomaricevic.socialdeal.R
-import com.karlomaricevic.socialdeal.core.navigation.TabItem
+import com.karlomaricevic.socialdeal.feature.core.navigation.TabItem
 import com.karlomaricevic.socialdeal.feature.search.SearchScreen
 import com.karlomaricevic.socialdeal.feature.search.viewmodel.SearchViewModel
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    searchViewModel: SearchViewModel = hiltViewModel()
+) {
     val tabs = listOf(
         TabItem(stringResource(R.string.home_screen_search_tab_name), Icons.Default.Search),
         TabItem(stringResource(R.string.home_screen_favorites_tab_name), Icons.Default.Favorite),
@@ -33,7 +35,6 @@ fun HomeScreen() {
     )
 
     var selectedTab by remember { mutableIntStateOf(0) }
-    val searchViewModel: SearchViewModel = hiltViewModel()
     Scaffold(
         bottomBar = {
             NavigationBar {

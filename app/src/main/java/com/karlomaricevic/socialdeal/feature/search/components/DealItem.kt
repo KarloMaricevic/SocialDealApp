@@ -17,10 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.karlomaricevic.designSystem.theme.blue100
-import com.karlomaricevic.designSystem.theme.gray500
-import com.karlomaricevic.domain.core.models.Deal
-import com.karlomaricevic.socialdeal.core.components.RemoteImage
+import com.karlomaricevic.socialdeal.designSystem.theme.blue100
+import com.karlomaricevic.socialdeal.designSystem.theme.gray500
+import com.karlomaricevic.socialdeal.domain.core.models.Deal
+import com.karlomaricevic.socialdeal.feature.core.components.RemoteImage
 
 @Composable
     fun DealItem(

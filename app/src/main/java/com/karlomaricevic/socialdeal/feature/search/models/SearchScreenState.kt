@@ -1,6 +1,6 @@
 package com.karlomaricevic.socialdeal.feature.search.models
 
-import com.karlomaricevic.domain.core.models.Deal
+import com.karlomaricevic.socialdeal.domain.core.models.Deal
 
 sealed class SearchScreenState {
 

@@ -3,9 +3,9 @@ package com.karlomaricevic.socialdeal
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.karlomaricevic.designSystem.theme.SocialDealAppTheme
-import com.karlomaricevic.socialdeal.core.components.SocialDealAppNavigation
-import com.karlomaricevic.socialdeal.core.navigation.Navigator
+import com.karlomaricevic.socialdeal.designSystem.theme.SocialDealAppTheme
+import com.karlomaricevic.socialdeal.feature.core.components.SocialDealAppNavigation
+import com.karlomaricevic.socialdeal.feature.core.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

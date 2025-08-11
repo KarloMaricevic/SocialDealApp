@@ -1,7 +1,7 @@
 package com.karlomaricevic.socialdeal.feature.search.viewmodel
 
-import com.karlomaricevic.domain.search.GetDealsUseCase
-import com.karlomaricevic.socialdeal.core.base.BaseViewModel
+import com.karlomaricevic.socialdeal.domain.search.GetDealsUseCase
+import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState.Error
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState.Loading

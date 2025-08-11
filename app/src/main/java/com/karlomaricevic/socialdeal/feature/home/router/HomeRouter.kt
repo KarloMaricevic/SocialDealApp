@@ -1,6 +1,6 @@
 package com.karlomaricevic.socialdeal.feature.home.router
 
-import com.karlomaricevic.socialdeal.core.navigation.NavigationDestination
+import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationDestination
 
 object HomeRouter : NavigationDestination {
     private const val HOME_SCREEN_ROUTE = "home"

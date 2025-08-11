@@ -20,8 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.karlomaricevic.designSystem.theme.SocialDealAppTheme
-import com.karlomaricevic.socialdeal.core.components.Shimmer
+import com.karlomaricevic.socialdeal.designSystem.theme.SocialDealAppTheme
+import com.karlomaricevic.socialdeal.feature.core.components.Shimmer
 import com.karlomaricevic.socialdeal.feature.search.components.DealItem
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState.Content
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState.Error
