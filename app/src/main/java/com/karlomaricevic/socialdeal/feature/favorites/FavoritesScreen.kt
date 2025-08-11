@@ -53,6 +53,7 @@ fun FavoritesScreen(
                             val deal = currentState.deals[index]
                             DealItem(
                                 model = deal,
+                                modifier = Modifier.animateItem(),
                                 onClick = { viewModel.onEvent(DealsCardClicked(deal.id)) },
                                 onFavoritesButtonClick = { viewModel.onEvent(UnfavoritesButtonClick(deal.id)) },
                             )
