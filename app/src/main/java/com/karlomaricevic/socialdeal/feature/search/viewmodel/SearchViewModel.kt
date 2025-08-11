@@ -58,9 +58,9 @@ class SearchViewModel @Inject constructor(
                     val content = _viewState.value as? Content ?: return@launch
                     val deal = content.deals.firstOrNull { it.id == event.id } ?: return@launch
                     if (!deal.isFavorite) {
-                        unfavoriteDealUseCase(event.id)
+                        unfavoriteDealUseCase(deal)
                     } else {
-                        favoriteDealUseCase(event.id)
+                        favoriteDealUseCase(deal)
                     }
                     dealsIdsBeingFavorite.remove(event.id)
                 }
