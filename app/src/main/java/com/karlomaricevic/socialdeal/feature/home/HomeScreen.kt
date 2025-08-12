@@ -33,11 +33,14 @@ import com.karlomaricevic.socialdeal.feature.favorites.FavoritesScreen
 import com.karlomaricevic.socialdeal.feature.favorites.viewmodel.FavoritesViewModel
 import com.karlomaricevic.socialdeal.feature.search.SearchScreen
 import com.karlomaricevic.socialdeal.feature.search.viewmodel.SearchViewModel
+import com.karlomaricevic.socialdeal.feature.settings.SettingsScreen
+import com.karlomaricevic.socialdeal.feature.settings.viewmodel.SettingsViewModel
 
 @Composable
 fun HomeScreen(
     searchViewModel: SearchViewModel = hiltViewModel(),
     favoritesViewModel: FavoritesViewModel = hiltViewModel(),
+    settingsViewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val saveableStateHolder = rememberSaveableStateHolder()
     val tabs = listOf(
@@ -73,7 +76,7 @@ fun HomeScreen(
                     when (index) {
                         0 -> SearchScreen(viewModel = searchViewModel, innerPadding = innerPadding)
                         1 -> FavoritesScreen(viewModel = favoritesViewModel, innerPadding = innerPadding)
-                        2 -> SearchScreen(viewModel = searchViewModel, innerPadding = innerPadding)
+                        2 -> SettingsScreen(viewModel = settingsViewModel, innerPadding = innerPadding)
                     }
                 }
             }
