@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.karlomaricevic.socialdeal.designSystem.theme.gray400
 import com.karlomaricevic.socialdeal.feature.core.components.DealItem
 import com.karlomaricevic.socialdeal.feature.core.components.DealItemPlaceholder
 import com.karlomaricevic.socialdeal.feature.core.components.DefaultErrorScreenIndicator
@@ -43,7 +44,7 @@ fun FavoritesScreen(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color(0xDDDDDDDD)),
+                            .background(gray400),
                     ) {
                         items(
                             count = currentState.deals.size,
