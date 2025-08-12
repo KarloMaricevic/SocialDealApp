@@ -5,6 +5,9 @@ import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteDealsUseCase
 import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteEventsStream
 import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
+import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationEvent.Destination
+import com.karlomaricevic.socialdeal.feature.core.navigation.Navigator
+import com.karlomaricevic.socialdeal.feature.deal.router.DealRouter
 import com.karlomaricevic.socialdeal.feature.favorites.models.FavoritesScreenEvent
 import com.karlomaricevic.socialdeal.feature.favorites.models.FavoritesScreenEvent.DealsCardClicked
 import com.karlomaricevic.socialdeal.feature.favorites.models.FavoritesScreenEvent.RetryButtonClicked
@@ -26,6 +29,7 @@ class FavoritesViewModel @Inject constructor(
     private val favoriteDealUseCase: FavoriteDealUseCase,
     private val unfavoriteDealUseCase: UnfavoriteDealUseCase,
     private val getFavoriteEventsStream: GetFavoriteEventsStream,
+    private val navigator: Navigator,
 ) : BaseViewModel<FavoritesScreenEvent>() {
 
     companion object {
@@ -62,7 +66,10 @@ class FavoritesViewModel @Inject constructor(
 
     override fun onEvent(event: FavoritesScreenEvent) {
         when (event) {
-            is DealsCardClicked -> {}
+            is DealsCardClicked -> {
+                launch { navigator.emitDestination(Destination(DealRouter.creteDealRoute(event.id))) }
+            }
+
             is UnfavoritesButtonClick -> {
                 _viewState.update { state ->
                     if (state is Content) {

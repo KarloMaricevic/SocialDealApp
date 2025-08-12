@@ -5,6 +5,9 @@ import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteEventsStream
 import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.search.GetDealsUseCase
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
+import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationEvent.*
+import com.karlomaricevic.socialdeal.feature.core.navigation.Navigator
+import com.karlomaricevic.socialdeal.feature.deal.router.DealRouter
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.DealsCardClicked
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.FavoritesButtonClick
@@ -26,6 +29,7 @@ class SearchViewModel @Inject constructor(
     private val favoriteDealUseCase: FavoriteDealUseCase,
     private val unfavoriteDealUseCase: UnfavoriteDealUseCase,
     private val getFavoriteEventsStream: GetFavoriteEventsStream,
+    private val navigator: Navigator,
 ) : BaseViewModel<SearchScreenEvent>() {
 
     companion object {
@@ -57,7 +61,16 @@ class SearchViewModel @Inject constructor(
 
     override fun onEvent(event: SearchScreenEvent) {
         when (event) {
-            is DealsCardClicked -> {}
+            is DealsCardClicked -> {
+                launch {
+                    navigator.emitDestination(
+                        Destination(
+                            DealRouter.creteDealRoute(event.id)
+                        )
+                    )
+                }
+            }
+
             is FavoritesButtonClick -> {
                 if (dealsIdsBeingFavorite.contains(event.id)) {
                     return

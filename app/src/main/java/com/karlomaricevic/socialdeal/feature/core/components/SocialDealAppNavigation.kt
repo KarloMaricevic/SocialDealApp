@@ -17,6 +17,8 @@ import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationEvent.Des
 import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationEvent.NavigateBack
 import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationEvent.NavigateUp
 import com.karlomaricevic.socialdeal.feature.core.navigation.Navigator
+import com.karlomaricevic.socialdeal.feature.deal.DetailsScreen
+import com.karlomaricevic.socialdeal.feature.deal.router.DealRouter
 import com.karlomaricevic.socialdeal.feature.home.HomeScreen
 import com.karlomaricevic.socialdeal.feature.home.router.HomeRouter
 
@@ -49,6 +51,15 @@ fun SocialDealAppNavigation(
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(HomeRouter.route()) { HomeScreen() }
+            composable(
+                route = DealRouter.route(),
+                arguments = DealRouter.arguments
+            ) { backStackEntry ->
+                DetailsScreen(
+                    backStackEntry = backStackEntry,
+                    innerPadding = innerPadding,
+                )
+            }
         }
     }
 }
