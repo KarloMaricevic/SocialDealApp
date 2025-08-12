@@ -15,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.karlomaricevic.socialdeal.designSystem.theme.black
 import com.karlomaricevic.socialdeal.feature.core.components.DealItem
 import com.karlomaricevic.socialdeal.feature.core.components.DealItemPlaceholder
 import com.karlomaricevic.socialdeal.feature.core.components.DefaultErrorScreenIndicator
@@ -75,9 +74,7 @@ fun FavoritesScreen(
             is Error -> {
                 DefaultErrorScreenIndicator(
                     onRetryClicked = { viewModel.onEvent(RetryButtonClicked) },
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(black)
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         }
