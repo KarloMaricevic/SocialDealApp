@@ -22,7 +22,7 @@ import com.karlomaricevic.socialdeal.designSystem.theme.blue
 @Composable
 fun NoFavorites(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

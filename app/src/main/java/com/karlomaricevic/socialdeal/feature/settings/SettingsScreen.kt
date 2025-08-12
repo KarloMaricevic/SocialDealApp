@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import com.karlomaricevic.socialdeal.feature.settings.comonents.CurrencyPicker
 import com.karlomaricevic.socialdeal.feature.settings.viewmodel.SettingsViewModel
 
+@Suppress("ModifierMissing")
 @Composable
 fun SettingsScreen(
     viewModel: SettingsViewModel,

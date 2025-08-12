@@ -7,7 +7,7 @@ import androidx.core.content.edit
 import javax.inject.Singleton
 
 @Singleton
-class FavoritesDataSource @Inject constructor(@ApplicationContext private val context: Context) {
+class FavoritesDatasource @Inject constructor(@ApplicationContext private val context: Context) {
 
     private companion object {
         const val FAVORITES_PREFS_NAME = "favorites_prefs"

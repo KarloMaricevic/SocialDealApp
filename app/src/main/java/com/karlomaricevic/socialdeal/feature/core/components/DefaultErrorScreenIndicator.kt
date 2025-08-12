@@ -21,7 +21,7 @@ import com.karlomaricevic.socialdeal.designSystem.theme.blue
 
 @Composable
 fun DefaultErrorScreenIndicator(
-    onRetryClicked: () -> Unit,
+    onRetryClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -42,7 +42,7 @@ fun DefaultErrorScreenIndicator(
             color = blue,
             modifier = Modifier.padding(bottom = 20.dp),
         )
-        Button(onClick = { onRetryClicked() }) {
+        Button(onClick = { onRetryClick() }) {
             Text(text = stringResource(R.string.retry))
         }
     }
@@ -53,7 +53,7 @@ fun DefaultErrorScreenIndicator(
 private fun ErrorIndicatorPreview() {
     SocialDealAppTheme {
         DefaultErrorScreenIndicator(
-            onRetryClicked = {},
+            onRetryClick = {},
             modifier = Modifier.fillMaxSize()
         )
     }

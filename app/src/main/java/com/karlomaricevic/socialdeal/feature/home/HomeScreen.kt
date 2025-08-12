@@ -1,11 +1,5 @@
 package com.karlomaricevic.socialdeal.feature.home
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
@@ -22,7 +16,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.karlomaricevic.socialdeal.R
@@ -36,6 +29,7 @@ import com.karlomaricevic.socialdeal.feature.search.viewmodel.SearchViewModel
 import com.karlomaricevic.socialdeal.feature.settings.SettingsScreen
 import com.karlomaricevic.socialdeal.feature.settings.viewmodel.SettingsViewModel
 
+@Suppress("ViewModelForwarding", "ModifierMissing")
 @Composable
 fun HomeScreen(
     searchViewModel: SearchViewModel = hiltViewModel(),

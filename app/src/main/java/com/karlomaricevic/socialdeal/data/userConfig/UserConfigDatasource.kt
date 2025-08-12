@@ -2,8 +2,6 @@ package com.karlomaricevic.socialdeal.data.userConfig
 
 import android.content.Context
 import androidx.core.content.edit
-import com.karlomaricevic.socialdeal.data.favorites.FavoritesDataSource
-import com.karlomaricevic.socialdeal.domain.core.models.Deal
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton

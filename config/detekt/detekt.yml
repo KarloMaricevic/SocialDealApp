@@ -258,6 +258,8 @@ complexity:
   LongMethod:
     active: true
     threshold: 60
+    ignoreAnnotated:
+      - "Composable"
   LongParameterList:
     active: true
     functionThreshold: 6
@@ -749,7 +751,7 @@ style:
     maxJumpCount: 1
   MagicNumber:
     active: true
-    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts']
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**', '**/*.kts', '**/com/karlomaricevic/socialdeal/designSystem/theme/**']
     ignoreNumbers:
       - '-1'
       - '0'
@@ -760,7 +762,8 @@ style:
     ignoreLocalVariableDeclaration: false
     ignoreConstantDeclaration: true
     ignoreCompanionObjectPropertyDeclaration: true
-    ignoreAnnotation: false
+    ignoreAnnotated:
+      - 'Composable'
     ignoreNamedArgument: true
     ignoreEnums: false
     ignoreRanges: false

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
 @Singleton
-class FavoritesRepository @Inject constructor(private val dataSource: FavoritesDataSource) {
+class FavoritesRepository @Inject constructor(private val dataSource: FavoritesDatasource) {
 
     private val _favoriteEvents = MutableSharedFlow<Deal>()
     val favoriteEvents = _favoriteEvents.asSharedFlow()

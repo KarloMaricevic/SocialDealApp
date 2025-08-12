@@ -10,18 +10,20 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.karlomaricevic.socialdeal.designSystem.theme.gray400
 import com.karlomaricevic.socialdeal.feature.core.components.DealItem
 import com.karlomaricevic.socialdeal.feature.core.components.DealItemPlaceholder
 import com.karlomaricevic.socialdeal.feature.core.components.DefaultErrorScreenIndicator
-import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.*
+import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.DealsCardClicked
+import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.FavoritesButtonClick
+import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent.RetryButtonClicked
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState.Content
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState.Error
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenState.Loading
 import com.karlomaricevic.socialdeal.feature.search.viewmodel.SearchViewModel
 
+@Suppress("ModifierMissing")
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel,
@@ -57,7 +59,7 @@ fun SearchScreen(
                 Error -> {
                     item {
                         DefaultErrorScreenIndicator(
-                            onRetryClicked = { viewModel.onEvent(RetryButtonClicked) },
+                            onRetryClick = { viewModel.onEvent(RetryButtonClicked) },
                             modifier = Modifier.fillParentMaxSize(),
                         )
                     }

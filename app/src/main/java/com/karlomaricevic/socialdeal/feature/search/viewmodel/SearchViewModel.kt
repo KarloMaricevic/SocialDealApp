@@ -5,7 +5,7 @@ import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteEventsStream
 import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.search.GetDealsUseCase
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
-import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationEvent.*
+import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationEvent.Destination
 import com.karlomaricevic.socialdeal.feature.core.navigation.Navigator
 import com.karlomaricevic.socialdeal.feature.deal.router.DealRouter
 import com.karlomaricevic.socialdeal.feature.search.models.SearchScreenEvent

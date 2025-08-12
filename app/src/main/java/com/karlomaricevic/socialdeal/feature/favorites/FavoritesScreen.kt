@@ -28,6 +28,7 @@ import com.karlomaricevic.socialdeal.feature.favorites.models.FavoritesScreenSta
 import com.karlomaricevic.socialdeal.feature.favorites.models.FavoritesScreenState.Loading
 import com.karlomaricevic.socialdeal.feature.favorites.viewmodel.FavoritesViewModel
 
+@Suppress("ModifierMissing")
 @Composable
 fun FavoritesScreen(
     innerPadding: PaddingValues,
@@ -74,7 +75,7 @@ fun FavoritesScreen(
 
             is Error -> {
                 DefaultErrorScreenIndicator(
-                    onRetryClicked = { viewModel.onEvent(RetryButtonClicked) },
+                    onRetryClick = { viewModel.onEvent(RetryButtonClicked) },
                     modifier = Modifier.fillMaxSize()
                 )
             }

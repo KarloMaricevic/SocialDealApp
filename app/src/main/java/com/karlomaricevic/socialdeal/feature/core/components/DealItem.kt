@@ -32,6 +32,7 @@ import com.karlomaricevic.socialdeal.designSystem.theme.red
 import com.karlomaricevic.socialdeal.designSystem.theme.white
 import com.karlomaricevic.socialdeal.domain.core.models.Deal
 
+@Suppress("ModifierMissing")
 @Composable
 fun DealItem(
     model: Deal,
