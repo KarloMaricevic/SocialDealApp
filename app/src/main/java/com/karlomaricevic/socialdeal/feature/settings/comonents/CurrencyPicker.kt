@@ -38,7 +38,7 @@ fun CurrencyPicker(
         verticalAlignment = CenterVertically
     ) {
         Text(
-            text = stringResource(R.string.currency_label),
+            text = stringResource(R.string.favorites_screen_currency_label),
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.weight(1f),
         )
@@ -60,7 +60,7 @@ fun CurrencyPicker(
                 .padding(horizontal = 16.dp)
         ) {
             Text(
-                text = stringResource(R.string.dollar_sign),
+                text = stringResource(R.string.favorites_screen_dollar_sign),
                 style = MaterialTheme.typography.titleMedium,
                 color = white,
             )
@@ -82,7 +82,7 @@ fun CurrencyPicker(
                 .padding(horizontal = 16.dp)
         ) {
             Text(
-                text = stringResource(R.string.euro_sign),
+                text = stringResource(R.string.favorites_screen_euro_sign),
                 style = MaterialTheme.typography.titleMedium,
                 color = white
             )

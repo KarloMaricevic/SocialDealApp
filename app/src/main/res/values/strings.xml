@@ -13,7 +13,7 @@
 
     // favorites screen
     <string name="favorites_screen_no_favorites_title">No favorites yet</string>
-    <string name="dollar_sign">$</string>
-    <string name="euro_sign">€</string>
-    <string name="currency_label">Currency</string>
+    <string name="favorites_screen_dollar_sign">$</string>
+    <string name="favorites_screen_euro_sign">€</string>
+    <string name="favorites_screen_currency_label">Currency</string>
 </resources>
