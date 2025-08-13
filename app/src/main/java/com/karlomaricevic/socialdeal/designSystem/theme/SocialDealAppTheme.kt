@@ -11,7 +11,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.graphics.drawable.toDrawable
 
 private val colorScheme = lightColorScheme(
-    primary = blue,
+    primary = blue100,
     surface = white,
     background = white,
     error = red,
