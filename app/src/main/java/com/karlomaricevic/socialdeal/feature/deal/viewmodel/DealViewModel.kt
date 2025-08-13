@@ -1,7 +1,10 @@
 package com.karlomaricevic.socialdeal.feature.deal.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
+import com.karlomaricevic.socialdeal.domain.core.models.Deal
 import com.karlomaricevic.socialdeal.domain.search.GetDealUseCase
+import com.karlomaricevic.socialdeal.domain.userConfig.GetCurrencyPref
+import com.karlomaricevic.socialdeal.domain.userConfig.models.Currency
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
 import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationEvent
 import com.karlomaricevic.socialdeal.feature.core.navigation.Navigator
@@ -23,7 +26,13 @@ class DealViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getDealUseCase: GetDealUseCase,
     private val navigator: Navigator,
-): BaseViewModel<DealScreenEvent>() {
+    private val getCurrencyPref: GetCurrencyPref,
+) : BaseViewModel<DealScreenEvent>() {
+
+    private companion object {
+        const val EURO_SYMBOL = "€"
+        const val DOLLAR_SYMBOL = "$"
+    }
 
     val dealId: String = checkNotNull(savedStateHandle[DealRouter.DEAL_ID_PARAM])
 
@@ -46,10 +55,28 @@ class DealViewModel @Inject constructor(
     private fun loadDealDetails() {
         _viewState.update { Loading }
         launch {
+            val currencyPref = getCurrencyPref()
             getDealUseCase(dealId).fold(
                 ifLeft = { error -> _viewState.update { Error } },
-                ifRight = { deal -> _viewState.update { Content(deal) } }
-            )
+                ifRight = { deal ->
+                    _viewState.update {
+                        Content(
+                            deal = deal,
+                            priceLabel = mapPriceLabel(deal, currencyPref),
+                            fromPriceLabel = mapFromPriceLabel(deal, currencyPref),
+                        )
+                    }
+                })
         }
+    }
+
+    fun mapPriceLabel(deal: Deal, currency: Currency) =
+        when (currency) {
+            Currency.EUR -> EURO_SYMBOL
+            Currency.USD -> DOLLAR_SYMBOL
+        } + deal.price[currency]?.price.toString()
+
+    fun mapFromPriceLabel(deal: Deal, currency: Currency) = deal.price[currency]?.fromPrice?.let { fromPrice ->
+        (if (currency == Currency.EUR) EURO_SYMBOL else DOLLAR_SYMBOL) + fromPrice
     }
 }
