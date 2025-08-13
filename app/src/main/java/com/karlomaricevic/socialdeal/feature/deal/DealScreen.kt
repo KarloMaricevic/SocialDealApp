@@ -1,5 +1,6 @@
 package com.karlomaricevic.socialdeal.feature.deal
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +45,7 @@ import com.karlomaricevic.socialdeal.domain.core.models.Deal
 import com.karlomaricevic.socialdeal.feature.core.components.DefaultErrorScreenIndicator
 import com.karlomaricevic.socialdeal.feature.core.components.RemoteImage
 import com.karlomaricevic.socialdeal.feature.deal.models.DealScreenEvent
+import com.karlomaricevic.socialdeal.feature.deal.models.DealScreenEvent.OnBackButtonClicked
 import com.karlomaricevic.socialdeal.feature.deal.models.DealScreenEvent.OnRetryButtonClicked
 import com.karlomaricevic.socialdeal.feature.deal.models.DealScreenState.Content
 import com.karlomaricevic.socialdeal.feature.deal.models.DealScreenState.Error
@@ -56,7 +60,9 @@ fun DetailsScreen(
     viewModel: DealViewModel = hiltViewModel(backStackEntry),
 ) {
     val state by viewModel.viewState.collectAsState()
-    Column(Modifier.padding(innerPadding)) {
+    Box(Modifier
+        .padding(innerPadding)
+        .fillMaxSize()) {
         when (val currentState = state) {
             is Content -> Content(
                 state = currentState,
@@ -64,12 +70,7 @@ fun DetailsScreen(
             )
 
             is Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator()
-                }
+                CircularProgressIndicator(Modifier.align(Alignment.Center))
             }
 
             is Error -> DefaultErrorScreenIndicator(
@@ -77,6 +78,18 @@ fun DetailsScreen(
                 modifier = Modifier.fillMaxSize(),
             )
         }
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = stringResource(R.string.default_icon_content_description),
+            modifier = Modifier
+                .padding(start = 12.dp, top = 12.dp)
+                .clip(CircleShape)
+                .size(48.dp)
+                .clickable { viewModel.onEvent(OnBackButtonClicked) }
+                .background(blue100)
+                .padding(12.dp),
+            tint = white,
+        )
     }
 }
 
