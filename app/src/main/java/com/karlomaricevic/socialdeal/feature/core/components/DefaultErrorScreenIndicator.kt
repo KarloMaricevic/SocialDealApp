@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.karlomaricevic.socialdeal.R
 import com.karlomaricevic.socialdeal.designSystem.theme.SocialDealAppTheme
-import com.karlomaricevic.socialdeal.designSystem.theme.blue
+import com.karlomaricevic.socialdeal.designSystem.theme.blue100
 
 @Composable
 fun DefaultErrorScreenIndicator(
@@ -35,11 +35,11 @@ fun DefaultErrorScreenIndicator(
             modifier = Modifier
                 .padding(bottom = 8.dp)
                 .size(200.dp),
-            tint = blue,
+            tint = blue100,
         )
         Text(
             text = stringResource(R.string.default_error_title),
-            color = blue,
+            color = blue100,
             modifier = Modifier.padding(bottom = 20.dp),
         )
         Button(onClick = { onRetryClick() }) {
@@ -48,7 +48,7 @@ fun DefaultErrorScreenIndicator(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun ErrorIndicatorPreview() {
     SocialDealAppTheme {
