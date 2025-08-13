@@ -30,4 +30,14 @@ class DealItemUiMapper @Inject constructor() {
             } + deal.price[currency]?.price.toString(),
             deal = deal,
         )
+
+    fun mapPriceLabel(deal: Deal, currency: Currency) =
+        when (currency) {
+            Currency.EUR -> EURO_SYMBOL
+            Currency.USD -> DOLLAR_SYMBOL
+        } + deal.price[currency]?.price.toString()
+
+    fun mapFromPriceLabel(deal: Deal, currency: Currency) = deal.price[currency]?.fromPrice?.let { fromPrice ->
+        (if (currency == Currency.EUR) EURO_SYMBOL else DOLLAR_SYMBOL) + fromPrice
+    }
 }

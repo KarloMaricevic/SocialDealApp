@@ -4,6 +4,7 @@ import com.karlomaricevic.socialdeal.domain.favorites.FavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteEventsStream
 import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.search.GetDealsUseCase
+import com.karlomaricevic.socialdeal.domain.userConfig.GetChangeCurrencyEventsStream
 import com.karlomaricevic.socialdeal.domain.userConfig.GetCurrencyPref
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
 import com.karlomaricevic.socialdeal.feature.core.mappers.DealItemUiMapper
@@ -34,6 +35,7 @@ class SearchViewModel @Inject constructor(
     private val getFavoriteEventsStream: GetFavoriteEventsStream,
     private val getCurrencyPref: GetCurrencyPref,
     private val dealItemMapper: DealItemUiMapper,
+    private val getChangeCurrencyEventsStream: GetChangeCurrencyEventsStream,
     private val navigator: Navigator,
 ) : BaseViewModel<SearchScreenEvent>() {
 
@@ -59,10 +61,32 @@ class SearchViewModel @Inject constructor(
                         val newDealsItems = state.deals.toMutableList().apply {
                             this[dealIndex] = this[dealIndex].copy(
                                 isFavorite = changedDeal.isFavorite,
-                                deal = if(this[dealIndex].id == changedDeal.id) changedDeal else this[dealIndex].deal,
+                                deal = if (this[dealIndex].id == changedDeal.id) changedDeal else this[dealIndex].deal,
                             )
                         }
                         state.copy(deals = newDealsItems)
+                    } else state
+                }
+            }
+        }
+        launch {
+            getChangeCurrencyEventsStream().collect { currency ->
+                _viewState.update { state ->
+                    if (state is Content) {
+                        Content(
+                            state.deals.map { deal ->
+                                deal.copy(
+                                    priceLabel = dealItemMapper.mapPriceLabel(
+                                        deal = deal.deal,
+                                        currency = currency,
+                                    ),
+                                    fromPriceLabel = dealItemMapper.mapFromPriceLabel(
+                                        deal = deal.deal,
+                                        currency = currency,
+                                    ),
+                                )
+                            }
+                        )
                     } else state
                 }
             }
@@ -95,10 +119,7 @@ class SearchViewModel @Inject constructor(
                             deal = deal.deal.copy(isFavorite = !deal.isFavorite)
                         )
                         val updatedDeals = state.deals.toMutableList().apply { this[dealIndex] = updatedDeal }
-                        Content(
-                            deals = updatedDeals,
-                            currency = state.currency,
-                        )
+                        Content(updatedDeals)
                     } else {
                         state
                     }
@@ -123,14 +144,12 @@ class SearchViewModel @Inject constructor(
         _viewState.update { Loading }
         launch {
             val currencyPref = getCurrencyPref()
-            Timber.d("currencyPref: $currencyPref")
             getDealsUseCase().fold(
                 ifLeft = { _ -> _viewState.update { Error } },
                 ifRight = { deals ->
                     _viewState.update {
                         Content(
                             deals = deals.map { deal -> dealItemMapper.map(deal = deal, currency = currencyPref) },
-                            currency = currencyPref,
                         )
                     }
                 }
