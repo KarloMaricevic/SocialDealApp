@@ -4,7 +4,9 @@ import com.karlomaricevic.socialdeal.domain.favorites.FavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteDealsUseCase
 import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteEventsStream
 import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
+import com.karlomaricevic.socialdeal.domain.userConfig.GetCurrencyPref
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
+import com.karlomaricevic.socialdeal.feature.core.mappers.DealItemUiMapper
 import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationEvent.Destination
 import com.karlomaricevic.socialdeal.feature.core.navigation.Navigator
 import com.karlomaricevic.socialdeal.feature.deal.router.DealRouter
@@ -29,6 +31,8 @@ class FavoritesViewModel @Inject constructor(
     private val favoriteDealUseCase: FavoriteDealUseCase,
     private val unfavoriteDealUseCase: UnfavoriteDealUseCase,
     private val getFavoriteEventsStream: GetFavoriteEventsStream,
+    private val getCurrencyPref: GetCurrencyPref,
+    private val dealItemUiMapper: DealItemUiMapper,
     private val navigator: Navigator,
 ) : BaseViewModel<FavoritesScreenEvent>() {
 
@@ -46,7 +50,10 @@ class FavoritesViewModel @Inject constructor(
                 _viewState.update { state ->
                     if (state is Content) {
                         return@update if (changedDeal.isFavorite) {
-                            val newFavorites = listOf(changedDeal) + state.deals
+                            val newFavorites = listOf(dealItemUiMapper.map(
+                                deal = changedDeal,
+                                currency = getCurrencyPref()
+                            )) + state.deals
                             Content(newFavorites)
                         } else {
                             val indexToRemove = state.deals.indexOfFirst { it.id == changedDeal.id }
@@ -75,7 +82,10 @@ class FavoritesViewModel @Inject constructor(
                     if (state is Content) {
                         val dealIndex = state.deals.indexOfFirst { deal -> deal.id == event.id }
                         val deal = state.deals[dealIndex]
-                        val updatedDeal = deal.copy(isFavorite = !deal.isFavorite)
+                        val updatedDeal = deal.copy(
+                            isFavorite = !deal.isFavorite,
+                            deal = deal.deal.copy(isFavorite = !deal.isFavorite),
+                        )
                         val updatedDeals = state.deals.toMutableList().apply { this[dealIndex] = updatedDeal }
                         Content(updatedDeals)
                     } else {
@@ -86,9 +96,9 @@ class FavoritesViewModel @Inject constructor(
                     val content = _viewState.value as? Content ?: return@launch
                     val deal = content.deals.firstOrNull { it.id == event.id } ?: return@launch
                     if (!deal.isFavorite) {
-                        unfavoriteDealUseCase(deal)
+                        unfavoriteDealUseCase(deal.deal)
                     } else {
-                        favoriteDealUseCase(deal)
+                        favoriteDealUseCase(deal.deal)
                     }
                 }
             }
@@ -100,9 +110,18 @@ class FavoritesViewModel @Inject constructor(
     private fun loadFavorites() {
         _viewState.update { Loading }
         launch {
+            val currencyPref = getCurrencyPref()
             getFavoriteDealsUseCase().fold(
                 ifLeft = { _ -> _viewState.update { Error } },
-                ifRight = { deals -> _viewState.update { Content(deals) } },
+                ifRight = { deals ->
+                    _viewState.update {
+                        Content(
+                            deals = deals.map { deal ->
+                                dealItemUiMapper.map(deal = deal, currency = currencyPref)
+                            },
+                        )
+                    }
+                }
             )
         }
     }

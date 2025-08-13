@@ -4,7 +4,9 @@ import com.karlomaricevic.socialdeal.domain.favorites.FavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteEventsStream
 import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.search.GetDealsUseCase
+import com.karlomaricevic.socialdeal.domain.userConfig.GetCurrencyPref
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
+import com.karlomaricevic.socialdeal.feature.core.mappers.DealItemUiMapper
 import com.karlomaricevic.socialdeal.feature.core.navigation.NavigationEvent.Destination
 import com.karlomaricevic.socialdeal.feature.core.navigation.Navigator
 import com.karlomaricevic.socialdeal.feature.deal.router.DealRouter
@@ -22,6 +24,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -29,6 +32,8 @@ class SearchViewModel @Inject constructor(
     private val favoriteDealUseCase: FavoriteDealUseCase,
     private val unfavoriteDealUseCase: UnfavoriteDealUseCase,
     private val getFavoriteEventsStream: GetFavoriteEventsStream,
+    private val getCurrencyPref: GetCurrencyPref,
+    private val dealItemMapper: DealItemUiMapper,
     private val navigator: Navigator,
 ) : BaseViewModel<SearchScreenEvent>() {
 
@@ -51,8 +56,13 @@ class SearchViewModel @Inject constructor(
                         if (dealIndex == NOT_FOUND_INDICATOR) {
                             state
                         }
-                        val newDeals = state.deals.toMutableList().apply { this[dealIndex] = changedDeal }
-                        Content(newDeals)
+                        val newDealsItems = state.deals.toMutableList().apply {
+                            this[dealIndex] = this[dealIndex].copy(
+                                isFavorite = changedDeal.isFavorite,
+                                deal = if(this[dealIndex].id == changedDeal.id) changedDeal else this[dealIndex].deal,
+                            )
+                        }
+                        state.copy(deals = newDealsItems)
                     } else state
                 }
             }
@@ -80,16 +90,22 @@ class SearchViewModel @Inject constructor(
                     if (state is Content) {
                         val dealIndex = state.deals.indexOfFirst { deal -> deal.id == event.id }
                         val deal = state.deals[dealIndex]
-                        val updatedDeal = deal.copy(isFavorite = !deal.isFavorite)
+                        val updatedDeal = deal.copy(
+                            isFavorite = !deal.isFavorite,
+                            deal = deal.deal.copy(isFavorite = !deal.isFavorite)
+                        )
                         val updatedDeals = state.deals.toMutableList().apply { this[dealIndex] = updatedDeal }
-                        Content(updatedDeals)
+                        Content(
+                            deals = updatedDeals,
+                            currency = state.currency,
+                        )
                     } else {
                         state
                     }
                 }
                 launch {
                     val content = _viewState.value as? Content ?: return@launch
-                    val deal = content.deals.firstOrNull { it.id == event.id } ?: return@launch
+                    val deal = content.deals.firstOrNull { it.id == event.id }?.deal ?: return@launch
                     if (!deal.isFavorite) {
                         unfavoriteDealUseCase(deal)
                     } else {
@@ -106,9 +122,18 @@ class SearchViewModel @Inject constructor(
     private fun loadDeals() {
         _viewState.update { Loading }
         launch {
+            val currencyPref = getCurrencyPref()
+            Timber.d("currencyPref: $currencyPref")
             getDealsUseCase().fold(
                 ifLeft = { _ -> _viewState.update { Error } },
-                ifRight = { deals -> _viewState.update { Content(deals) } },
+                ifRight = { deals ->
+                    _viewState.update {
+                        Content(
+                            deals = deals.map { deal -> dealItemMapper.map(deal = deal, currency = currencyPref) },
+                            currency = currencyPref,
+                        )
+                    }
+                }
             )
         }
     }
