@@ -4,6 +4,7 @@ import com.karlomaricevic.socialdeal.domain.favorites.FavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteDealsUseCase
 import com.karlomaricevic.socialdeal.domain.favorites.GetFavoriteEventsStream
 import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
+import com.karlomaricevic.socialdeal.domain.userConfig.GetChangeCurrencyEventsStream
 import com.karlomaricevic.socialdeal.domain.userConfig.GetCurrencyPref
 import com.karlomaricevic.socialdeal.feature.core.base.BaseViewModel
 import com.karlomaricevic.socialdeal.feature.core.mappers.DealItemUiMapper
@@ -33,6 +34,7 @@ class FavoritesViewModel @Inject constructor(
     private val getFavoriteEventsStream: GetFavoriteEventsStream,
     private val getCurrencyPref: GetCurrencyPref,
     private val dealItemUiMapper: DealItemUiMapper,
+    private val getChangeCurrencyEventsStream: GetChangeCurrencyEventsStream,
     private val navigator: Navigator,
 ) : BaseViewModel<FavoritesScreenEvent>() {
 
@@ -50,10 +52,12 @@ class FavoritesViewModel @Inject constructor(
                 _viewState.update { state ->
                     if (state is Content) {
                         return@update if (changedDeal.isFavorite) {
-                            val newFavorites = listOf(dealItemUiMapper.map(
-                                deal = changedDeal,
-                                currency = getCurrencyPref()
-                            )) + state.deals
+                            val newFavorites = listOf(
+                                dealItemUiMapper.map(
+                                    deal = changedDeal,
+                                    currency = getCurrencyPref()
+                                )
+                            ) + state.deals
                             Content(newFavorites)
                         } else {
                             val indexToRemove = state.deals.indexOfFirst { it.id == changedDeal.id }
@@ -65,6 +69,28 @@ class FavoritesViewModel @Inject constructor(
                             }
                             Content(newFavorites)
                         }
+                    } else state
+                }
+            }
+        }
+        launch {
+            getChangeCurrencyEventsStream().collect { currency ->
+                _viewState.update { state ->
+                    if (state is Content) {
+                        Content(
+                            state.deals.map { deal ->
+                                deal.copy(
+                                    priceLabel = dealItemUiMapper.mapPriceLabel(
+                                        deal = deal.deal,
+                                        currency = currency,
+                                    ),
+                                    fromPriceLabel = dealItemUiMapper.mapFromPriceLabel(
+                                        deal = deal.deal,
+                                        currency = currency,
+                                    ),
+                                )
+                            }
+                        )
                     } else state
                 }
             }
