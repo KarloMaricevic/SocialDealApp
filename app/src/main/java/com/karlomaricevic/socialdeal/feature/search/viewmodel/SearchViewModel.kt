@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+@Suppress("LongParameterList")
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getDealsUseCase: GetDealsUseCase,
