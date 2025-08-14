@@ -17,6 +17,7 @@ class GetFavoriteDealsUseCase @Inject constructor(
         val favorites = favoritesRepository.getFavoritesIds()
         dealsRepository.getDeals().map { deals ->
             deals.filter { deal -> favorites.contains(deal.id) }
+                .sortedBy { deal -> favorites.indexOf(deal.id) }
                 .map { deal -> deal.copy(isFavorite = true) }
         }
     }
