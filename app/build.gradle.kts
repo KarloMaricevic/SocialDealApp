@@ -52,6 +52,10 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     }
 }
 
+tasks.withType<Test> {
+    jvmArgs!!.add("-XX:+EnableDynamicAgentLoading")
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -73,6 +77,11 @@ dependencies {
     implementation(libs.jackson.kotlin)
     implementation(libs.arrow.core)
     implementation(libs.timber)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.kotest.assertions.core)
+    testImplementation(libs.kotest.assertions.arrow)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
