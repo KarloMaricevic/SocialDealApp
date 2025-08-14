@@ -42,6 +42,12 @@ android {
     }
 }
 
+kotlin {
+    sourceSets.all {
+        languageSettings.optIn("kotlinx.coroutines.ExperimentalCoroutinesApi")
+    }
+}
+
 tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
     jvmTarget = "22"
     config.setFrom("$rootDir/config/detekt/detekt.yml")
