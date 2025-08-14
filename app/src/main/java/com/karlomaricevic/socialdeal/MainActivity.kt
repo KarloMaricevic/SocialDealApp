@@ -3,6 +3,7 @@ package com.karlomaricevic.socialdeal
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.karlomaricevic.socialdeal.designSystem.theme.SocialDealAppTheme
 import com.karlomaricevic.socialdeal.feature.core.components.SocialDealAppNavigation
 import com.karlomaricevic.socialdeal.feature.core.navigation.Navigator
@@ -16,6 +17,7 @@ class MainActivity : ComponentActivity() {
     lateinit var navigator: Navigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             SocialDealAppTheme {
