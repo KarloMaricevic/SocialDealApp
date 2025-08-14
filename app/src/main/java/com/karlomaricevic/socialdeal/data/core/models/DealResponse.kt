@@ -25,4 +25,7 @@ data class DealResponse(
 
     @JsonProperty("prices")
     val prices: PricesResponse,
+
+    @JsonProperty
+    val description: String?,
 )

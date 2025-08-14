@@ -21,6 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -196,6 +197,24 @@ private fun Content(
                     modifier = Modifier.alignByBaseline(),
                 )
             }
+            Spacer(Modifier.padding(vertical = 8.dp))
+            Text(
+                text = stringResource(R.string.deal_screen_description_section_title),
+                style = MaterialTheme.typography.titleMedium,
+            )
+            Spacer(Modifier.padding(vertical = 4.dp))
+            if (deal.description != null) {
+                Text(
+                    text =deal.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            } else {
+                Text(
+                    text = stringResource(R.string.deal_screen_no_description_indicator),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = gray500,
+                )
+            }
         }
     }
 }
@@ -243,6 +262,7 @@ private fun ContentLongTextPreview() {
                     price = hashMapOf(
                         Currency.EUR to Price(123f, 123f)
                     ),
+                    description = List(20) { "Description" }.joinToString()
                 ),
                 priceLabel = "€123",
                 fromPriceLabel = "€1000",

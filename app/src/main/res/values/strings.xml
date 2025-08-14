@@ -16,4 +16,8 @@
     <string name="favorites_screen_dollar_sign">$</string>
     <string name="favorites_screen_euro_sign">€</string>
     <string name="favorites_screen_currency_label">Currency</string>
+
+    // deal screen
+    <string name="deal_screen_description_section_title">Description</string>
+    <string name="deal_screen_no_description_indicator">No description</string>
 </resources>

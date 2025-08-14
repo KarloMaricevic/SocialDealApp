@@ -11,4 +11,5 @@ data class Deal(
     val city: String,
     val isFavorite: Boolean = false,
     val price: HashMap<Currency, Price>,
+    val description: String? = null,
 )

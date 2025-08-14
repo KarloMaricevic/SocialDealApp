@@ -45,6 +45,7 @@ class DealsRepository @Inject constructor(
                             .toFloat(),
                     ),
                 ),
+                description = dto.description,
             )
         }
     }
