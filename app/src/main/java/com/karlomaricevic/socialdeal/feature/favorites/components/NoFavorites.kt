@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.karlomaricevic.socialdeal.R
 import com.karlomaricevic.socialdeal.designSystem.theme.SocialDealAppTheme
-import com.karlomaricevic.socialdeal.designSystem.theme.blue
+import com.karlomaricevic.socialdeal.designSystem.theme.blue100
 
 @Composable
 fun NoFavorites(modifier: Modifier = Modifier) {
@@ -34,11 +35,11 @@ fun NoFavorites(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .size(64.dp)
                 .padding(bottom = 8.dp),
-            tint = blue,
+            tint = MaterialTheme.colorScheme.primary,
         )
         Text(
             text = stringResource(R.string.favorites_screen_no_favorites_title),
-            color = blue,
+            color = MaterialTheme.colorScheme.primary,
         )
     }
 }

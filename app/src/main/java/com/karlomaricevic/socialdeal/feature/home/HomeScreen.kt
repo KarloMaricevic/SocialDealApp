@@ -5,6 +5,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.karlomaricevic.socialdeal.R
+import com.karlomaricevic.socialdeal.designSystem.theme.blue100
 import com.karlomaricevic.socialdeal.designSystem.theme.blue300
 import com.karlomaricevic.socialdeal.designSystem.theme.blue700
 import com.karlomaricevic.socialdeal.feature.core.navigation.TabItem
@@ -54,9 +56,9 @@ fun HomeScreen(
                         selected = selectedTab == index,
                         onClick = { selectedTab = index },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = blue300,
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
                             unselectedIconColor = blue700,
-                            selectedTextColor = blue300,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
                             unselectedTextColor = blue700,
                         )
                     )
