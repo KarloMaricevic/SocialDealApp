@@ -1,5 +1,6 @@
 package com.karlomaricevic.socialdeal.feature.home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
@@ -20,8 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.karlomaricevic.socialdeal.R
-import com.karlomaricevic.socialdeal.designSystem.theme.blue100
-import com.karlomaricevic.socialdeal.designSystem.theme.blue300
 import com.karlomaricevic.socialdeal.designSystem.theme.blue700
 import com.karlomaricevic.socialdeal.feature.core.navigation.TabItem
 import com.karlomaricevic.socialdeal.feature.favorites.FavoritesScreen
@@ -38,14 +37,17 @@ fun HomeScreen(
     favoritesViewModel: FavoritesViewModel = hiltViewModel(),
     settingsViewModel: SettingsViewModel = hiltViewModel(),
 ) {
-    val saveableStateHolder = rememberSaveableStateHolder()
     val tabs = listOf(
         TabItem(stringResource(R.string.home_screen_search_tab_name), Icons.Default.Search),
         TabItem(stringResource(R.string.home_screen_favorites_tab_name), Icons.Default.Favorite),
         TabItem(stringResource(R.string.home_screen_settings_tab_name), Icons.Default.Settings),
     )
 
+    val saveableStateHolder = rememberSaveableStateHolder()
     var selectedTab by remember { mutableIntStateOf(0) }
+    BackHandler(enabled = selectedTab != 0) {
+        selectedTab = 0
+    }
     Scaffold(
         bottomBar = {
             NavigationBar {
