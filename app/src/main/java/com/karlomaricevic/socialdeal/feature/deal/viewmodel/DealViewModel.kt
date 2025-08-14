@@ -2,6 +2,8 @@ package com.karlomaricevic.socialdeal.feature.deal.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import com.karlomaricevic.socialdeal.domain.core.models.Deal
+import com.karlomaricevic.socialdeal.domain.favorites.FavoriteDealUseCase
+import com.karlomaricevic.socialdeal.domain.favorites.UnfavoriteDealUseCase
 import com.karlomaricevic.socialdeal.domain.search.GetDealUseCase
 import com.karlomaricevic.socialdeal.domain.userConfig.GetCurrencyPref
 import com.karlomaricevic.socialdeal.domain.userConfig.models.Currency
@@ -27,6 +29,8 @@ class DealViewModel @Inject constructor(
     private val getDealUseCase: GetDealUseCase,
     private val navigator: Navigator,
     private val getCurrencyPref: GetCurrencyPref,
+    private val favoriteDealUseCase: FavoriteDealUseCase,
+    private val removeFavoriteDealUseCase: UnfavoriteDealUseCase,
 ) : BaseViewModel<DealScreenEvent>() {
 
     private companion object {
@@ -48,7 +52,27 @@ class DealViewModel @Inject constructor(
             DealScreenEvent.OnBackButtonClicked -> launch {
                 navigator.emitDestination(NavigationEvent.NavigateBack)
             }
+
             DealScreenEvent.OnRetryButtonClicked -> loadDealDetails()
+            DealScreenEvent.OnFavoriteButtonClicked -> {
+                _viewState.update { state -> if (state is Content) state.copy(isFavoriteClickable = false) else state }
+                launch {
+                    if (_viewState.value is Content) {
+                        val deal = (_viewState.value as Content).deal
+                        if (deal.isFavorite) {
+                            removeFavoriteDealUseCase(deal)
+                        } else {
+                            favoriteDealUseCase(deal)
+                        }
+                        _viewState.update { state ->
+                            if (state is Content) state.copy(
+                                isFavoriteClickable = true,
+                                deal = deal.copy(isFavorite = !state.deal.isFavorite)
+                            ) else state
+                        }
+                    }
+                }
+            }
         }
     }
 

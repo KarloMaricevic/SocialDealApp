@@ -4,4 +4,5 @@ sealed class DealScreenEvent {
 
     object OnBackButtonClicked: DealScreenEvent()
     object OnRetryButtonClicked: DealScreenEvent()
+    object OnFavoriteButtonClicked: DealScreenEvent()
 }
