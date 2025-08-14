@@ -118,7 +118,9 @@ fun DealItem(
                 Text(
                     text = model.fromPriceLabel,
                     color = gray500,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        textDecoration = TextDecoration.LineThrough,
+                    ),
                     modifier = Modifier.alignByBaseline(),
                 )
                 Spacer(Modifier.width(8.dp))
